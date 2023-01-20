@@ -1,5 +1,6 @@
 const graphql = require("graphql");
-const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLInt } = graphql;
+const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLInt, GraphQLList } =
+  graphql;
 const _ = require("lodash");
 
 const usersData = [
@@ -20,7 +21,7 @@ const hobbiesData = [
 
 const postsData = [
   { id: "1", comment: "nice post 1", userId: "1" },
-  { id: "2", comment: "nice post 2", userId: "13" },
+  { id: "2", comment: "nice post 2", userId: "1" },
   { id: "3", comment: "nice post 3", userId: "15" },
   { id: "4", comment: "nice post 4", userId: "19" },
   { id: "5", comment: "nice post 5", userId: "160" },
@@ -31,17 +32,21 @@ const UserType = new GraphQLObjectType({
   name: "User",
   description: "Documentation for user...",
   fields: () => ({
-    id: {
-      type: GraphQLID,
+    id: { type: GraphQLID },
+    name: { type: GraphQLString },
+    age: { type: GraphQLInt },
+    profession: { type: GraphQLString },
+    posts: {
+      type: new GraphQLList(PostType),
+      resolve(parent, args) {
+        return _.filter(postsData, { userId: parent.id });
+      },
     },
-    name: {
-      type: GraphQLString,
-    },
-    age: {
-      type: GraphQLInt,
-    },
-    profession: {
-      type: GraphQLString,
+    hobbies: {
+      type: new GraphQLList(HobbyType),
+      resolve(parent, args) {
+        return _.filter(hobbiesData, { userId: parent.id });
+      },
     },
   }),
 });
@@ -50,15 +55,9 @@ const HobbyType = new GraphQLObjectType({
   name: "Hobby",
   description: "Hobby...",
   fields: () => ({
-    id: {
-      type: GraphQLID,
-    },
-    title: {
-      type: GraphQLString,
-    },
-    description: {
-      type: GraphQLString,
-    },
+    id: { type: GraphQLID },
+    title: { type: GraphQLString },
+    description: { type: GraphQLString },
     user: {
       type: UserType,
       resolve(parent, args) {
@@ -90,33 +89,21 @@ const RootQuery = new GraphQLObjectType({
   fields: {
     user: {
       type: UserType,
-      args: {
-        id: {
-          type: GraphQLString,
-        },
-      },
+      args: { id: { type: GraphQLString } },
       resolve(parent, args) {
         return _.find(usersData, { id: args.id });
       },
     },
     hobby: {
       type: HobbyType,
-      args: {
-        id: {
-          type: GraphQLID,
-        },
-      },
+      args: { id: { type: GraphQLID } },
       resolve(parent, args) {
         return _.find(hobbiesData, { id: args.id });
       },
     },
     post: {
       type: PostType,
-      args: {
-        id: {
-          type: GraphQLID,
-        },
-      },
+      args: { id: { type: GraphQLID } },
       resolve(parent, args) {
         return _.find(postsData, { id: args.id });
       },
