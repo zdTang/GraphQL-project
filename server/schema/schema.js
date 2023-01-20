@@ -7,16 +7,19 @@ const usersData = [
     id: "1",
     name: "Bond",
     age: 36,
+    profession: "reading",
   },
   {
     id: "13",
     name: "Anna",
     age: 26,
+    profession: "sking",
   },
   {
     id: "15",
     name: "Mike",
     age: 96,
+    profession: "dancing",
   },
   {
     id: "19",
@@ -27,7 +30,16 @@ const usersData = [
     id: "160",
     name: "Peter",
     age: 36,
+    profession: "fishing",
   },
+];
+
+const hobbiesData = [
+  { id: "1", title: "reading", description: "just reading" },
+  { id: "2", title: "writing", description: "just writing" },
+  { id: "3", title: "gaming", description: "just gaming" },
+  { id: "4", title: "fishing", description: "just fishing" },
+  { id: "5", title: "coding", description: "just coding" },
 ];
 
 //create types
@@ -36,13 +48,32 @@ const UserType = new GraphQLObjectType({
   description: "Documentation for user...",
   fields: () => ({
     id: {
-      type: GraphQLString,
+      type: GraphQLID,
     },
     name: {
       type: GraphQLString,
     },
     age: {
       type: GraphQLInt,
+    },
+    profession: {
+      type: GraphQLString,
+    },
+  }),
+});
+
+const HobbyType = new GraphQLObjectType({
+  name: "Hobby",
+  description: "Hobby...",
+  fields: () => ({
+    id: {
+      type: GraphQLID,
+    },
+    title: {
+      type: GraphQLString,
+    },
+    description: {
+      type: GraphQLString,
     },
   }),
 });
@@ -61,6 +92,17 @@ const RootQuery = new GraphQLObjectType({
       },
       resolve(parent, args) {
         return _.find(usersData, { id: args.id });
+      },
+    },
+    hobby: {
+      type: HobbyType,
+      args: {
+        id: {
+          type: GraphQLID,
+        },
+      },
+      resolve(parent, args) {
+        return _.find(hobbiesData, { id: args.id });
       },
     },
   },
