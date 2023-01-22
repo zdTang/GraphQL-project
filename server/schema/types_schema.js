@@ -28,9 +28,17 @@ const Person = new GraphQLObjectType({
     isMarried: { type: GraphQLBoolean },
     gpa: { type: GraphQLFloat },
     justAType: {
+      //
       type: Person,
       resolve(parent, args) {
         return parent;
+      },
+    },
+    justTripleAge: {
+      //
+      type: GraphQLFloat,
+      resolve(parent, args) {
+        return parent.age * 8;
       },
     },
   }),
@@ -44,8 +52,8 @@ const RootQuery = new GraphQLObjectType({
       type: Person,
       resolve(parent, args) {
         let personObj = {
-          name: null,
-          age: null,
+          name: "mike",
+          age: 99,
           isMarried: true,
           gpa: 4.0,
         };
