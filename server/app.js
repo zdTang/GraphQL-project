@@ -9,6 +9,8 @@ const schema_test = require("./schema/types_schema");
 const mongoose = require("mongoose");
 //mongoose.set("strictQuery", false); // based on warning
 const port = process.env.PORT || 4000;
+const cors = require("cors");
+
 mongoose
   .connect(
     `mongodb+srv://${process.env.mongoUserName}:${process.env.mongoUserPassword}@cluster0.y6term8.mongodb.net/${process.env.mongoDatabase}`,
@@ -21,6 +23,7 @@ mongoose
   })
   .catch((error) => console.dir(error));
 
+app.use(cors());
 app.use(
   "/graphql",
   graphqlHTTP({

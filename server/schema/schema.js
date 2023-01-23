@@ -1,6 +1,12 @@
 const graphql = require("graphql");
-const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLInt, GraphQLList } =
-  graphql;
+const {
+  GraphQLObjectType,
+  GraphQLID,
+  GraphQLString,
+  GraphQLInt,
+  GraphQLList,
+  GraphQLNonNull,
+} = graphql;
 const User = require("../Model/user");
 const Hobby = require("../Model/hobby");
 const Post = require("../Model/post");
@@ -148,9 +154,9 @@ const Mutation = new GraphQLObjectType({
     CreateUser: {
       type: UserType,
       args: {
-        name: { type: GraphQLString },
-        age: { type: GraphQLInt },
-        profession: { type: GraphQLString },
+        name: { type: new GraphQLNonNull(GraphQLString) },
+        age: { type: new GraphQLNonNull(GraphQLInt) },
+        profession: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve(parent, args) {
         let user = User({
@@ -165,8 +171,8 @@ const Mutation = new GraphQLObjectType({
     CreatePost: {
       type: PostType,
       args: {
-        comment: { type: GraphQLString },
-        userId: { type: GraphQLID },
+        comment: { type: new GraphQLNonNull(GraphQLString) },
+        userId: { type: new GraphQLNonNull(GraphQLID) },
       },
       resolve(parent, args) {
         let post = Post({
@@ -180,9 +186,9 @@ const Mutation = new GraphQLObjectType({
     CreateHobby: {
       type: HobbyType,
       args: {
-        title: { type: GraphQLString },
-        description: { type: GraphQLString },
-        userId: { type: GraphQLID },
+        title: { type: new GraphQLNonNull(GraphQLString) },
+        description: { type: new GraphQLNonNull(GraphQLString) },
+        userId: { type: new GraphQLNonNull(GraphQLID) },
       },
       resolve(parent, args) {
         let hobby = Hobby({
