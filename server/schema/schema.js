@@ -191,6 +191,19 @@ const Mutation = new GraphQLObjectType({
         ));
       },
     },
+    RemoveUser: {
+      type: UserType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve(parent, args) {
+        let removeUser = User.findByIdAndRemove(args.id).exec();
+        if (!removeUser) {
+          throw new Error();
+        }
+        return removeUser;
+      },
+    },
     // Create Post
     CreatePost: {
       type: PostType,
@@ -226,6 +239,19 @@ const Mutation = new GraphQLObjectType({
             new: true, //send back the updated objectType
           }
         ));
+      },
+    },
+    RemovePost: {
+      type: PostType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve: async (parent, args) => {
+        let remove = await Post.findByIdAndRemove(args.id).exec();
+        if (!remove) {
+          throw new Error();
+        }
+        return remove;
       },
     },
     // Create Hobby
@@ -267,6 +293,19 @@ const Mutation = new GraphQLObjectType({
             new: true, //send back the updated objectType
           }
         ));
+      },
+    },
+    RemoveHobby: {
+      type: HobbyType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve: async (parent, args) => {
+        let remove = await Hobby.findByIdAndRemove(args.id).exec();
+        if (!remove) {
+          throw new Error();
+        }
+        return remove;
       },
     },
   },
