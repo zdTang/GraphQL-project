@@ -7,7 +7,7 @@ const process = require("./nodemon.json");
 const schema = require("./schema/schema");
 const schema_test = require("./schema/types_schema");
 const mongoose = require("mongoose");
-mongoose.set("strictQuery", false); // based on warning
+//mongoose.set("strictQuery", false); // based on warning
 const port = process.env.PORT || 4000;
 mongoose
   .connect(

@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 const MSchema = mongoose.Schema;
-mongoose.set("useFindAndModify", false);
+//mongoose.set("useFindAndModify", false);
 
-const PostSchema = new MSchema({
-  comment: String,
+const PostSchema = MSchema({
+    comment: String,
+    userId:String
 });
 
 

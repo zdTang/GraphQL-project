@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 const MSchema = mongoose.Schema;
-mongoose.set("useFindAndModify", false);
+//mongoose.set("useFindAndModify", false);
 
-const HobbySchema = new MSchema({
+const HobbySchema = MSchema({
   title: String,
   description: String,
+  userId: String,
 });
 
 module.exports = mongoose.model("Hobby", HobbySchema);
