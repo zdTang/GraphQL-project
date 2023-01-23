@@ -1,0 +1,8 @@
+{
+  "env": {
+    "mongoDatabase": "test",
+    "mongoUserName": "john",
+    "mongoUserPassword": "cWDNFTtXEzlQzueF",
+    "PORT": 4000
+  }
+}
